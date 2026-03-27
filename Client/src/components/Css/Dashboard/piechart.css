@@ -1,0 +1,47 @@
+.pie-card {
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+  
+  .pie-title {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .side-chart,
+.pie-card {
+  border: none !important;
+}
+.recharts-wrapper {
+  outline: none !important;
+}
+
+.recharts-surface {
+  outline: none !important;
+}
+/* REMOVE ALL POSSIBLE BORDERS */
+.pie-card,
+.side-chart,
+.bottom-section,
+.table-area {
+  border: none !important;
+  outline: none !important;
+}
+
+/* RECHART FIX */
+.recharts-wrapper,
+.recharts-surface {
+  outline: none !important;
+}
+
+/* DEBUG BORDER RESET */
+* {
+  box-shadow: none;
+}
+.recharts-sector,
+.recharts-layer,
+svg {
+  outline: none !important;
+}

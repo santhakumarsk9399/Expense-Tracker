@@ -1,0 +1,212 @@
+/* sidebar.css */
+
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  background: #111827;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+/* COLLAPSE */
+.sidebar.collapsed {
+  width: 70px;
+}
+.sidebar.collapsed .sidebar-header {
+    font-size: 20px;
+  }
+/* LOGO */
+.sidebar-header {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  
+    white-space: nowrap;   /* prevent break */
+    overflow: hidden;
+  }
+
+/* MENU */
+.menu {
+  list-style: none;
+  padding: 10px;
+}
+
+.menu li {
+  margin: 8px 0;
+}
+
+.menu li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 15px;
+  border-radius: 10px;
+
+  color: #d1d5db;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.menu li a {
+    overflow: hidden;     /* prevents text cut */
+    white-space: nowrap;  /* no breaking */
+  }
+/* HOVER */
+.menu li a:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+/* ACTIVE */
+.menu li a.active {
+  background: #3b82f6;
+  color: white;
+}
+
+/* COLLAPSED TEXT HIDE */
+.sidebar.collapsed .menu li a span {
+  display: none;
+}
+.sidebar.collapsed .menu li a {
+    justify-content: center;
+  }
+
+/* PUSH LOGOUT TO BOTTOM */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu {
+  flex: 1;
+}
+
+/* LOGOUT SECTION */
+.logout-section {
+  padding: 15px;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #f87171;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* MODAL BACKDROP */
+.logout-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.3); /* lighter */
+  backdrop-filter: blur(4px);     /* 🔥 glass effect */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 2000;
+}
+
+/* MODAL BOX */
+.logout-box {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  width: 320px;
+  text-align: center;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+  animation: popup 0.3s ease;
+}
+
+/* TITLE */
+.logout-box h3 {
+  margin-bottom: 10px;
+}
+
+/* TEXT */
+.logout-box p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* BUTTONS */
+.logout-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.logout-actions button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* YES BUTTON */
+.yes-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.yes-btn:hover {
+  background: #dc2626;
+}
+
+/* CANCEL BUTTON */
+.cancel-btn {
+  background: #e5e7eb;
+}
+
+.cancel-btn:hover {
+  background: #d1d5db;
+}
+
+/* ANIMATION */
+@keyframes popup {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.sidebar {
+    transition: width 0.3s ease;
+  }
+  
+  .menu li a span {
+    transition: opacity 0.2s ease;
+  }
+  .logoutText
+  {
+color: #111827;
+  }

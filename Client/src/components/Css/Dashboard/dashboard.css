@@ -1,0 +1,254 @@
+/* ================= DASHBOARD ================= */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+}
+
+/* ================= CARDS ================= */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.card {
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* TEXT */
+.card h4 {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.card h2 {
+  margin-top: 5px;
+  font-size: 20px;
+}
+
+.green {
+  color: #16a34a;
+}
+
+.red {
+  color: #dc2626;
+}
+
+/* ================= SECTION 2 (3 PARTS) ================= */
+.section-two {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.2fr;
+  gap: 20px;
+}
+
+/* ================= SECTION 3 (2 PARTS) ================= */
+.section-three {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ================= CHART CARD ================= */
+.chart-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+.sub {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+/* ================= AI PANEL ================= */
+.ai-panel {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* HEADER */
+.ai-header {
+  text-align: center;
+}
+
+.ai-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin: auto;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+/* ACTION BUTTONS */
+.ai-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.ai-actions button {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 10px;
+  background: #eef2ff;
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+  transition: 0.2s;
+  font-family: 'Sora', sans-serif;
+}
+
+.ai-actions button:hover {
+  background: #e0e7ff;
+}
+
+/* MAIN BUTTON */
+.ai-main-btn {
+  margin-top: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7c3aed, #6366f1);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Sora', sans-serif;
+}
+
+/* INPUT */
+.ai-input {
+  display: flex;
+  margin-top: 15px;
+}
+
+.ai-input input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 10px 0 0 10px;
+  border: 1px solid #ddd;
+  font-size: 13px;
+}
+
+.ai-input button {
+  padding: 8px 12px;
+  border: none;
+  background: #7c3aed;
+  color: white;
+  border-radius: 0 10px 10px 0;
+}
+
+/* ================= TABLE ================= */
+.table-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #f1f5f9;
+  font-family: 'Sora', sans-serif;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.green-bg {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.yellow-bg {
+  background: #fef9c3;
+  color: #b45309;
+}
+
+/* ================= TOOLTIP ================= */
+.custom-tooltip {
+  background: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  font-size: 12px;
+}
+
+.custom-tooltip .label {
+  font-weight: bold;
+}
+
+.custom-tooltip .income {
+  color: #7c3aed;
+}
+
+.custom-tooltip .expense {
+  color: #5b21b6;
+}
+
+/* ================= CHART FIX ================= */
+.recharts-cartesian-axis-tick-value {
+  font-size: 12px;
+  fill: #6b7280;
+}
+
+.recharts-cartesian-grid line {
+  stroke: #f1f5f9;
+}
+
+/* REMOVE CLICK BORDER */
+.recharts-sector,
+.recharts-layer,
+svg {
+  outline: none !important;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .section-two {
+    grid-template-columns: 1fr;
+  }
+
+  .section-three {
+    grid-template-columns: 1fr;
+  }
+
+}

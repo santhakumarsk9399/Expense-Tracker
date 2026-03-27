@@ -1,0 +1,84 @@
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background: linear-gradient(180deg, #0f172a, #1e293b);
+  color: #fff;
+  position: fixed;
+  padding: 20px 10px;
+  transition: 0.3s;
+}
+
+/* Collapse */
+.sidebar.collapsed {
+  width: 80px;
+}
+
+/* Top */
+.sidebar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.toggle-btn {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Remove link default style */
+.menu a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Menu */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Menu Item */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Icon */
+.icon {
+  font-size: 18px;
+}
+
+/* Active */
+.menu-item.active {
+  background: #2563eb;
+  font-weight: 500;
+}
+
+/* Logout */
+.logout {
+  margin-top: 40px;
+  color: #f87171;
+}
+
+/* Main content fix */
+.main {
+  margin-left: 240px;
+  padding: 20px;
+}
+
+/* When collapsed */
+.sidebar.collapsed ~ .main {
+  margin-left: 80px;
+}

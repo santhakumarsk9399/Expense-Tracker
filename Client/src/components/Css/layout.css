@@ -1,0 +1,66 @@
+/* layout.css */
+
+.layout {
+  display: flex;
+  height: 100vh;
+  background: #f1f5f9;
+}
+
+/* SIDEBAR (FIXED) */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #111827;
+  color: white;
+  transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 70px;
+}
+
+/* MAIN AREA */
+.main {
+  flex: 1;
+  margin-left: 240px;   /* match sidebar */
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.main.collapsed {
+  margin-left: 70px;
+}
+
+/* HEADER */
+.header {
+  position: fixed;
+  top: 0;
+  left: 240px;
+  right: 0;
+  height: 60px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+/* HEADER WHEN COLLAPSED */
+.main.collapsed .header {
+  left: 70px;
+}
+
+/* CONTENT */
+.content {
+  margin-top: 60px;   /* header height */
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+}
