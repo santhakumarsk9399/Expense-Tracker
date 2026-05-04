@@ -10,6 +10,7 @@ export const ExpenseProvider = ({ children }) => {
     expense: 0,
     savings: 0,
     balance: 0,
+    highest: 0
   });
   // const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -33,7 +34,7 @@ export const ExpenseProvider = ({ children }) => {
       // console.log(data)
       setExpenses(data);
       setTransactions(data);
-      
+
       const summaryData = calculateSummary(data);
       // console.log(summaryData)
       setSummary(summaryData);
@@ -49,24 +50,49 @@ export const ExpenseProvider = ({ children }) => {
   }, []);
 
 
+  // const fetchAllExpenses = async () => {
+  //   const user = JSON.parse(localStorage.getItem("user"));
+
+  //   if (!user?._id) return;
+
+  //   const res = await fetchExpenses(user._id);
+  //   const data = res.data || [];
+  //   return data;
+  // };
+
   const fetchAllExpenses = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user?._id) return;
 
-    const res = await fetchExpenses(user._id);
-    const data = res.data || [];
+    try {
+      setLoading(true);
+      const data = await fetchExpenses(user._id); // ✅ FIXED
+      setTransactions(data);
+      setExpenses(data);
 
-    setExpenses(data); // ✅ full data
-    // setRecentTransactions(data.slice(0, 3)); // ✅ recent
+      const summaryData = calculateSummary(data);
+      setSummary(summaryData);
+
+    } catch (err) {
+      setError("Failed to fetch expenses");
+    } finally {
+      setLoading(false);
+    }
+
   };
 
-  useEffect(() => {
-    fetchAllExpenses();
-  }, []);
+  // useEffect(() => {
+  //   if (transactions.length > 0) {
+  //     const summaryData = calculateSummary(transactions);
+  //     setSummary(summaryData);
+  //   }
+  // }, [transactions]);
 
-  
-  const recentTransactions = transactions
+  // const recentTransactions = transactions
+  //   .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  //   .slice(0, 6);
+  const recentTransactions = [...transactions] // ✅ clone first
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 6);
   // total transactions
@@ -83,7 +109,8 @@ export const ExpenseProvider = ({ children }) => {
         loadExpenses,
         recentTransactions,
         TotalTransactions,
-        fetchAllExpenses
+        fetchAllExpenses,
+        setTransactions
       }}
     >
       {children}

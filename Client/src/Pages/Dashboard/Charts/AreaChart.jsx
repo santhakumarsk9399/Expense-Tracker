@@ -9,7 +9,7 @@ import {
 } from "recharts";
 
 const AreaChartComponent = ({ data }) => {
-console.log(data)
+    console.log(data)
     const groupedData = {};
 
     data.forEach((item) => {

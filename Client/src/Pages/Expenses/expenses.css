@@ -457,6 +457,7 @@
   justify-content: center;
   z-index: 1000;
   animation: overlayIn 0.2s ease;
+  height: 92vh;
 }
 
 @keyframes overlayIn {
@@ -478,6 +479,7 @@
   from { opacity: 0; transform: scale(0.92) translateY(12px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
+
 
 .exp-modal-sm {
   max-width: 340px;
@@ -712,5 +714,25 @@
 
 .exp-btn-danger:hover { transform: translateY(-1px); }
 body.modal-open {
-  overflow: hidden;
+  overflow: hidden !important;   /* ✅ force stop scroll */
+  height: 100vh;
+}
+
+.exp-modal {
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  scrollbar-width: none !important;
+}
+
+.exp-modal::-webkit-scrollbar {
+  display: none;
+}
+
+.exp-modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  overflow: hidden !important;  /* ✅ prevents scroll */
+}
+body.modal-open .content {
+  overflow: hidden !important;
 }

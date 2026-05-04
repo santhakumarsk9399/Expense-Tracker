@@ -23,15 +23,15 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { summary, loading, recentTransactions, expenses, TotalTransactions, fetchAllExpenses } = useExpense();
   useEffect(() => {
-    console.log(expenses)
-    if (!expenses || expenses.length === 0) {
+    console.log(TotalTransactions)
+    if (!TotalTransactions || TotalTransactions.length === 0) {
       const user = JSON.parse(localStorage.getItem("user"));
       fetchAllExpenses(user._id);
     }
   }, []);
 
-  const chartData = getCategoryData(recentTransactions || []);
-  console.log(chartData)
+  const chartData = getCategoryData(TotalTransactions || []);
+  // console.log(TotalTransactions)
   return (
     
     <div className="dashboard">
@@ -46,7 +46,7 @@ const Dashboard = () => {
 
 
         {/* PIE CHART */}
-        <PieChartComponent data={expenses|| []} />
+        <PieChartComponent data={chartData || []} />
 
 
         {/* AI PANEL */}
@@ -76,7 +76,7 @@ const Dashboard = () => {
         {/* AREA CHART */}
         <div className="card">
           <h3>Monthly Trend</h3>
-          <AreaChartComponent data={chartData || []} />
+          <AreaChartComponent data={TotalTransactions || []} />
 
         </div>
 

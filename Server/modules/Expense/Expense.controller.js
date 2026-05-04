@@ -160,6 +160,79 @@ exports.CreateExpense = async (req, res) => {
     });
   }
 };
+// exports.UpdateExpense = async (req, res) => {
+//   try {
+
+//     const id = req.query.id;
+//     if (!id) {
+//       return res.status(400).json({ message: "Expense ID required" });
+//     }
+//     const expense = await ExpenseData.findById(id);
+//     if (!expense) {
+//       return res.status(404).json({ message: "Expense Not Found" });
+//     }
+//     // const expense = new ExpenseData(req.body);
+//     // const expense = new ExpenseData({
+//     //   ...req.body,
+//     //   Userid: "69b7a9944e393b6b2fc851d1" // 👈 temp user
+//     // });
+//     // const saved = await expense.save();
+
+//     // res.status(201).json({
+//     //   success: true,
+//     //   message: "Expense updated successfully",
+//     //   data: saved
+//     // });
+
+//   } catch (err) {
+//     console.error(err);
+
+//     res.status(500).json({
+//       success: false,
+//       message: "Server Error",
+//       error: err.message
+//     });
+//   }
+// };
+exports.UpdateExpense = async (req, res) => {
+  try {
+    const { id } = req.query;          // Expense ID
+    const userId = req.user?.id || "69b7a9944e393b6b2fc851d1"; // from token (preferred) or body
+
+    if (!id) {
+      return res.status(400).json({ message: "Expense ID required" });
+    }
+
+    // 🔍 Find expense by ID + User
+    const expense = await ExpenseData.findOne({ _id: id, Userid: userId });
+
+    if (!expense) {
+      return res.status(404).json({ message: "Expense not found or unauthorized" });
+    }
+
+    // ✏️ Update fields
+    const updatedExpense = await ExpenseData.findByIdAndUpdate(
+      id,
+      { ...req.body },
+      { new: true } // return updated document
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Expense updated successfully",
+      data: updatedExpense
+    });
+
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: err.message
+    });
+  }
+};
 exports.deleteExpense = async (req, res) => {
   try {
     const id = req.query.id;

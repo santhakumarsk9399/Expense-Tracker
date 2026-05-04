@@ -3,11 +3,11 @@ import "./expenses.css"
     //  const totalIncome = records.filter(r => r.type === "income").reduce((s, r) => s + r.amount, 0);
     //  const totalExpense = records.filter(r => r.type === "expense").reduce((s, r) => s + r.amount, 0);
     //  const balance = totalIncome - totalExpense;
-
+console.log(records,"records")
      const totalIncome = records ? records.income :0 ;
      const totalExpense = records ? records.expense : 0;
      const balance = records ? records.balance : 0;
-     const highest = records ? records.income : 0;
+     const highest = records ? records.highest : 0;
      const fmt = (n) => "₹" + Number(n).toLocaleString("en-IN");
      return (
          <div className="exp-stats">

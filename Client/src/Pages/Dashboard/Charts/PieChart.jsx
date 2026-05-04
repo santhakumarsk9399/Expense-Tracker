@@ -45,6 +45,7 @@ const renderCustomLabel = ({
 };
 
 const PieChartComponent = ({ data }) => {
+    console.log(data)
     if (!data || data.length === 0) {
         return <p style={{ textAlign: "center" }}>No data</p>;
     }

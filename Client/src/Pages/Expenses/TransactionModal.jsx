@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import "../Expenses/expenses.css"
 export default function TransactionModal({
     showModal,
     onClose,
@@ -11,7 +11,7 @@ export default function TransactionModal({
     incomeCategories,
     CATEGORY_META
 }) {
-
+console.log(initialForm)
     const [form, setForm] = useState(initialForm);
     const currentCats =
         form.type === "expense"
@@ -19,12 +19,33 @@ export default function TransactionModal({
             : incomeCategories;
 
     useEffect(() => {
-        setForm(f => ({
-            ...f,
-            category: currentCats[0]
-        }));
+        if (showModal) {
+            document.body.classList.add("modal-open");   // ✅ disable background scroll
+        } else {
+            document.body.classList.remove("modal-open");
+        }
+
+        return () => {
+            document.body.classList.remove("modal-open"); // cleanup
+        };
+    }, [showModal]);
+    useEffect(() => {
+        if (initialForm) {
+            setForm(initialForm);
+        }
+    }, [initialForm]);
+
+    useEffect(() => {
+        if (!editId) {
+            setForm(f => ({
+                ...f,
+                category: currentCats[0]
+            }));
+        }
     }, [form.type]);
+console.log(form)
     if (!showModal) return null;
+
 
     return (
         <div className="exp-modal-overlay" onClick={onClose}>
@@ -146,90 +167,5 @@ export default function TransactionModal({
                 </div>
             </div>
         </div>
-        // <div className="exp-modal-overlay" onClick={onClose}>
-        //     <div className="exp-modal" onClick={e => e.stopPropagation()}>
-
-        //         {/* HEADER */}
-        //         <div className="exp-modal-header">
-        //             <h3>{editId ? "Edit Transaction" : "New Transaction"}</h3>
-        //             <button className="exp-modal-close" onClick={onClose}>✕</button>
-        //         </div>
-
-        //         {/* TYPE TOGGLE */}
-        //         <div className="exp-toggle-wrap">
-        //             <div className="exp-toggle-track">
-        //                 <button
-        //                     className={`exp-toggle-btn ${form.type === "expense" ? "exp-toggle-active-exp" : ""}`}
-        //                     onClick={() => switchType("expense")}
-        //                 >
-        //                     Expense
-        //                 </button>
-
-        //                 <button
-        //                     className={`exp-toggle-btn ${form.type === "income" ? "exp-toggle-active-inc" : ""}`}
-        //                     onClick={() => switchType("income")}
-        //                 >
-        //                     Income
-        //                 </button>
-        //             </div>
-        //         </div>
-
-        //         {/* BODY */}
-        //         <div className="exp-modal-body">
-
-        //             <input
-        //                 className="exp-input"
-        //                 placeholder="Title"
-        //                 value={form.title}
-        //                 onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-        //             />
-
-        //             <input
-        //                 className="exp-input"
-        //                 type="number"
-        //                 placeholder="Amount"
-        //                 value={form.amount}
-        //                 onChange={e => setForm(f => ({ ...f, amount: e.target.value }))}
-        //             />
-
-        //             <input
-        //                 className="exp-input"
-        //                 type="date"
-        //                 value={form.date}
-        //                 onChange={e => setForm(f => ({ ...f, date: e.target.value }))}
-        //             />
-
-        //             {/* CATEGORY */}
-        //             <div className="exp-cat-grid">
-        //                 {currentCats.map(c => {
-        //                     const meta = CATEGORY_META[c] || {};
-        //                     return (
-        //                         <button
-        //                             key={c}
-        //                             className="exp-cat-btn"
-        //                             onClick={() => setForm(f => ({ ...f, category: c }))}
-        //                         >
-        //                             {meta.icon} {c}
-        //                         </button>
-        //                     );
-        //                 })}
-        //             </div>
-
-        //         </div>
-
-        //         {/* FOOTER */}
-        //         <div className="exp-modal-footer">
-        //             <button className="exp-btn-cancel" onClick={onClose}>Cancel</button>
-
-        //             <button
-        //                 className="exp-btn-save"
-        //                 onClick={() => onSave(form)}
-        //             >
-        //                 {editId ? "Save Changes" : "Add Transaction"}
-        //             </button>
-        //         </div>
-
-        //     </div>
-        // </div>
     );
 }

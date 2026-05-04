@@ -5,22 +5,71 @@ import Expenses from "./Pages/Expenses/Expenses";
 import Reports from "./Pages/Reports/Reports";
 import AIInsights from "./Pages/Ai-Insights/GetFinancialAI_Insights";
 
+import Login from "./Pages/Auth/Login";
+import Register from "./Pages/Auth/Register";
+import ForgotPassword from "./Pages/Auth/ForgotPassword";
+
+import ProtectedRoute from "./Routes/ProtectedRoutes";
+import { AuthProvider } from "./Context/AuthContext";
+import PublicRoute from "./Pages/Auth/PublicRoute";
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
 
-        {/* ✅ Parent Layout */}
-        <Route path="/" element={<Layout />}>
-          {/* ✅ Child Pages */}
-          <Route index element={<Dashboard />} />
-          <Route path="expenses" element={<Expenses />} />
-          <Route path="reports" element={<Reports />} />
-          <Route path="ai-insights" element= {<AIInsights />} />
-        </Route>
+          {/* 🔐 Public Routes */}
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <Register />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/forgot"
+            element={
+              <PublicRoute>
+                <ForgotPassword />
+              </PublicRoute>
+            }
+          />
 
-      </Routes>
-    </BrowserRouter>
+          {/* 🔒 Protected Routes */}
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            {/* ✅ default route */}
+            <Route index element={<Dashboard />} />
+
+            {/* ✅ relative paths */}
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="expenses" element={<Expenses />} />
+            <Route path="reports" element={<Reports />} />
+            <Route path="ai-insights" element={<AIInsights />} />
+          </Route>
+
+
+          
+
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

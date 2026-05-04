@@ -1,0 +1,94 @@
+/* BACKDROP */
+.logout-modal {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.45); /* dark overlay */
+  backdrop-filter: blur(6px);
+
+  z-index: 9999; /* enough when using portal */
+}
+
+/* MODAL BOX */
+.logout-box {
+  background: #ffffff;
+  width: 320px;
+  padding: 28px 24px;
+  border-radius: 16px;
+  text-align: center;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+
+  animation: modalScale 0.25s ease;
+}
+
+/* TITLE */
+.logout-box h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+/* DESCRIPTION */
+.logout-box p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+/* BUTTON CONTAINER */
+.logout-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* COMMON BUTTON */
+.logout-actions button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* YES BUTTON */
+.yes-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.yes-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* CANCEL BUTTON */
+.cancel-btn {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.cancel-btn:hover {
+  background: #d1d5db;
+  transform: translateY(-1px);
+}
+
+/* ANIMATION */
+@keyframes modalScale {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

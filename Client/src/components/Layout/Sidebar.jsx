@@ -1,17 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { NavLink ,useNavigate } from "react-router-dom";
 import { FaHome, FaMoneyBill, FaChartBar, FaSignOutAlt } from "react-icons/fa";
 import { useState } from "react";
 import "../Css/sidebar.css";
+import { useAuth } from "../../Context/AuthContext";
+import LogoutModal from "../Common/LogoutModal";
 
 const Sidebar = ({ collapsed }) => {
     const [showLogout, setShowLogout] = useState(false);
+    const { logout } = useAuth();
+    const navigate = useNavigate();
 
     const handleLogout = () => {
-        // clear session/local storage
-        localStorage.clear();
-
-        // redirect
-        window.location.href = "/login";
+        logout();
+        navigate("/login", { replace: true });
     };
 
     return (
@@ -23,7 +24,7 @@ const Sidebar = ({ collapsed }) => {
 
             <ul className="menu">
                 <li>
-                    <NavLink to="/">
+                    <NavLink to="/dashboard">
                         <FaHome />
                         <span>Dashboard</span>
                     </NavLink>
@@ -44,33 +45,21 @@ const Sidebar = ({ collapsed }) => {
                 </li>
             </ul>
 
-            {/* ✅ Logout at bottom */}
-            <div className="logout-section">
-                <div className="logout-btn" onClick={() => setShowLogout(true)}>
-                    <FaSignOutAlt />
-                    {!collapsed && <span>Logout</span>}
-                </div>
-            </div>
 
-            {/* ✅ Popup */}
-            {showLogout && (
-                <div className="logout-modal">
-                    <div className="logout-box">
-                        <h3 className="logoutText">Logout</h3>
-                        <p>Are you sure you want to logout?</p>
+<div className="logout-section">
+  <div className="logout-btn" onClick={() => setShowLogout(true)}>
+    <FaSignOutAlt />
+    {!collapsed && <span>Logout</span>}
+  </div>
+</div>
 
-                        <div className="logout-actions">
-                            <button className="yes-btn" onClick={handleLogout}>
-                                Yes
-                            </button>
-                            <button className="cancel-btn" onClick={() => setShowLogout(false)}>
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
+{showLogout && (
+  <LogoutModal
+    onConfirm={handleLogout}
+    onCancel={() => setShowLogout(false)}
+  />
+)}
+</div>
     );
 };
 

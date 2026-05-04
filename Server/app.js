@@ -22,6 +22,7 @@ app.use(express.static(path.join("public")));
 // Define Routes
 app.use("/users", require("./modules/Users/user.route"));
 app.use("/expenses", require("./modules/Expense/Expense.router"));
-
+app.use("/heatmaps", require("./modules/Heatmaps/heatmap.router"));
+app.use("/uploads", express.static("uploads"));
 module.exports = app;
 

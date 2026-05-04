@@ -5,7 +5,7 @@ import TransactionTabs from "./TransactionTabs";
 import Toolbar from "./Toolbar";
 import TransactionTable from "./TransactionTable";
 import TransactionModal from "./TransactionModal";
-import { addExpense, deleteExpense, fetchExpenses } from "../../Services/ExpenseService";
+import { addExpense, deleteExpense, fetchExpenses, updateExpense } from "../../Services/ExpenseService";
 import { useExpense } from "../../Context/ExpenseContext";
 import { EXPENSE_CATEGORIES, INCOME_SOURCES, CATEGORY_META, EMPTY_FORM } from "../../Constants/ExpenseConstants";
 
@@ -22,7 +22,7 @@ function Expenses() {
   const [expensesList, setExpensesList] = useState([])
 
 
-  const { summary, loading, recentTransactions, expenses, TotalTransactions, setExpenses, fetchAllExpenses } = useExpense();
+  const { summary, setTransactions, TotalTransactions, setExpenses, fetchAllExpenses } = useExpense();
   // console.log(summary, loading, recentTransactions, expenses, TotalTransactions)
   const [filters, setFilters] = useState({
     search: "",
@@ -34,7 +34,11 @@ function Expenses() {
   const currentCats = form.type === "expense" ? EXPENSE_CATEGORIES : INCOME_SOURCES;
 
   const openAdd = () => { setForm(EMPTY_FORM); setEditId(null); setShowModal(true); };
-  const openEdit = (rec) => { setForm({ ...rec }); setEditId(rec.id); setShowModal(true); };
+
+
+
+
+
   const closeModal = () => { setShowModal(false); setEditId(null); };
 
   const switchType = (t) => {
@@ -47,15 +51,55 @@ function Expenses() {
   localStorage.setItem("user", JSON.stringify(dummyuser));
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // useEffect(() => {
-  //   const loadExpenses = async () => {
-  //     const data = await fetchExpenses(user._id);
-  //     setExpenses(data.data);
-  //   };
+  const handleSave = (data) => {
+    try {
+      if (editId) {
+        handleUpdate(data);   // ✅ pass data
+      } else {
+        handleAdd(data);      // ✅ pass data
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  //   loadExpenses();
-  // }, []);
-  const handleSave = async (data) => {
+  // add expense 
+  // const handleAdd = async (data) => {
+  //   try {
+  //     if (!data.title || !data.amount || !data.date) {
+  //       alert("Please fill required fields");
+  //       return;
+  //     }
+
+  //     const payload = {
+  //       Title: data.title,
+  //       Amount: Number(data.amount),
+  //       Category: data.category,
+  //       Type: data.type,
+  //       Date: data.date,
+  //       Notes: data.note,
+  //     };
+
+
+  //     await addExpense(payload);
+
+  //     // optimistic update
+  //     setTransactions(prev => [
+  //       { ...payload, _id: Date.now() },
+  //       ...prev
+  //     ]);
+
+  //     // sync after slight delay
+  //     setTimeout(() => {
+  //       fetchAllExpenses();
+  //     }, 300);
+  //     setShowModal(false);
+
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+  const handleAdd = async (data) => {
     try {
       if (!data.title || !data.amount || !data.date) {
         alert("Please fill required fields");
@@ -68,11 +112,11 @@ function Expenses() {
         Category: data.category,
         Type: data.type,
         Date: data.date,
-        Notes: data.note
+        Notes: data.note,
       };
 
-      // ✅ Step 1: Save
       await addExpense(payload);
+
       await fetchAllExpenses();
       setShowModal(false);
 
@@ -80,20 +124,83 @@ function Expenses() {
       console.error(err);
     }
   };
+  // Edit Expense 
+  const openEdit = (rec) => {
+    const mappedData = {
+      _id: rec._id,
+      title: rec.Title,
+      amount: rec.Amount,
+      category: rec.Category,
+      type: rec.Type,
+      date: rec.Date?.split("T")[0],
+      note: rec.Notes
+    };
 
+    setForm(mappedData);
+    setEditId(rec._id);
+    setShowModal(true); // ✅ just open modal
+  };
+  // update expense 
+  // const handleUpdate = async () => {
+  //   try {
+  //     const payload = {
+  //       Title: form.title,
+  //       Amount: form.amount,
+  //       Category: form.category,
+  //       Type: form.type,
+  //       Date: form.date,
+  //       Notes: form.note
+  //     };
 
-  const handleDelete = async () => {
+  //     await updateExpense(editId, payload);
+
+  //     fetchAllExpenses(); // refresh list
+  //     setShowModal(false); // close modal
+
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+  const handleUpdate = async (data) => {
     try {
-      const res = await deleteExpense(deleteId);
+      const payload = {
+        Title: data.title,
+        Amount: Number(data.amount),
+        Category: data.category,
+        Type: data.type,
+        Date: data.date,
+        Notes: data.note
+      };
+
+      await updateExpense(editId, payload);
+
       await fetchAllExpenses();
-      setDeleteId(null);
+      setShowModal(false);
 
     } catch (err) {
       console.error(err);
     }
   };
-  console.log(expenses)
-  const filtered = (expenses || [])
+  // delete expense 
+  const handleDelete = async () => {
+    try {
+      await deleteExpense(deleteId);
+
+      setTransactions(prev =>
+        prev.filter(item => item._id !== deleteId)
+      );
+
+      // optional sync
+      fetchAllExpenses();
+
+      setDeleteId(null);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const filtered = (TotalTransactions || [])
     .filter(r => filters.type === "all" || r.Type === filters.type)
     .filter(r => filters.category === "All" || r.Category === filters.category)
     .filter(r =>
@@ -106,7 +213,6 @@ function Expenses() {
         return b.Amount - a.Amount;
       }
     });
-  console.log(filtered);
   const fmt = (n) => "₹" + Number(n).toLocaleString("en-IN");
 
   return (
@@ -134,11 +240,11 @@ function Expenses() {
       <div className="exp-table-card">
 
         {/* TYPE TABS */}
-        <TransactionTabs records={expenses} filterType={filters.type} setFilters={setFilters} />
+        <TransactionTabs records={TotalTransactions} filterType={filters.type} setFilters={setFilters} />
 
 
         {/* SEARCH + FILTER */}
-        <Toolbar filters={filters} setFilters={setFilters} records={expenses} />
+        <Toolbar filters={filters} setFilters={setFilters} records={TotalTransactions} />
 
         {/* TABLE */}
         {filtered.length === 0 ? (
@@ -159,7 +265,7 @@ function Expenses() {
         )}
 
         <div className="exp-table-footer">
-          Showing <strong>{filtered.length}</strong> of <strong>{expenses?.length}</strong> transactions
+          Showing <strong>{filtered.length}</strong> of <strong>{TotalTransactions?.length}</strong> transactions
           {filterCat !== "All" && (
             <span className="exp-filter-tag">{filterCat} <button onClick={() => setFilterCat("All")}>×</button></span>
           )}

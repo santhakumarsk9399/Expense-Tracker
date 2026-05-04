@@ -6,7 +6,7 @@ const token = localStorage.getItem("token");
 // ✅ GET
 export const fetchExpenses = async (userId) => {
   const res = await axios.get(`${API}/GetExpense?UserID=${userId}`);
-  return res?.data || []; // ✅ THIS IS THE FIX
+  return res?.data || []; 
 };
 
 // ✅ POST
@@ -25,10 +25,10 @@ export const addExpense = async (payload) => {
 
   return res.data;
 };
-export const updateExpense = async (id, payload) => {
 
+export const updateExpense = async (id, payload) => {
   const res = await axios.put(
-    `${API}/AddExpense`,
+    `${API}/UpdateExpense?id=${id}`,
     payload,
     {
       headers: {
@@ -40,7 +40,6 @@ export const updateExpense = async (id, payload) => {
 
   return res.data;
 };
-
 export const deleteExpense = async (id)=>
   {
   const res = await axios.delete(
