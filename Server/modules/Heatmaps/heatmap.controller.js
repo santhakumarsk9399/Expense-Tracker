@@ -1,15 +1,6 @@
 // controllers/zoneController.js
 const Heatmap = require("./heatmap.model");
 
-// CREATE
-// exports.createZone = async (req, res) => {
-//     try {
-//         const ZoneImages = await Heatmap.create(req.body);
-//         res.json(ZoneImages);
-//     } catch (err) {
-//         res.status(500).json({ error: err.message });
-//     }
-// };
 
 exports.createZone = async (req, res) => {
     try {
@@ -69,8 +60,6 @@ exports.updateZoneImages = async (req, res) => {
                 error: "Invalid zoneData format"
             });
         }
-
-        // 🚨 VERY IMPORTANT (ADD THIS)
         if (!parsedZoneData || !parsedZoneData.points) {
             return res.status(400).json({
                 error: "zoneData missing or invalid"
@@ -111,45 +100,7 @@ exports.updateZoneImages = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
-// exports.updateZoneImages = async (req, res) => {
-//     try {
-//         const fullImage = req.files?.fullImage?.[0]?.filename;
-//         const cropImage = req.files?.cropImage?.[0]?.filename;
 
-//         const updateData = {
-//             mall: req.body.mall,
-//             floor: req.body.floor,
-//             zoneName: req.body.zoneName,
-//             imageW: req.body.imageW,
-//             imageH: req.body.imageH,
-
-//             // ✅ FIX: parse JSON
-//             zoneData: JSON.parse(req.body.zoneData),
-//         };
-
-//         // ✅ only update images if new files uploaded
-//         if (fullImage) {
-//             updateData.fullImage = `/uploads/${fullImage}`;
-//         }
-
-//         if (cropImage) {
-//             updateData.cropUrl = `/uploads/${cropImage}`;
-//         }
-
-//         const updated = await Heatmap.findByIdAndUpdate(
-//             req.params.id,
-//             updateData,
-//             { new: true }
-//         );
-
-//         res.json(updated);
-
-//     } catch (err) {
-//         res.status(500).json({ error: err.message });
-//     }
-// };
-
-// DELETE
 exports.deleteZoneImages = async (req, res) => {
     await Heatmap.findByIdAndDelete(req.params.id);
     res.json({ success: true });
